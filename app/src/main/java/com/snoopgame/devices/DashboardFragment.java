@@ -7,13 +7,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.snoopgame.devices.connection.HttpClient;
 
 public class DashboardFragment extends Fragment {
 
-    public TextView txtView;
+    public ListView listView;
+    public String [] dash_components;
 
     @Nullable
     @Override
@@ -25,13 +27,17 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        txtView = (TextView)view.getRootView().findViewById(R.id.dashboardView);
-        txtView.setText("В консоль смотри");
-        Connect();
+        CreateTestJSON createTestJSON =new CreateTestJSON();
+       Connect();
     }
+    public void setListView(){
+    listView=(ListView)getView().findViewById(R.id.dash_list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getContext(),R.layout.dash_components,dash_components);
+        listView.setAdapter(adapter);
+    }
+    private void Connect(){
+        HttpClient client = new HttpClient("https://reqres.in/api/users?page=2");
+       client.doGetRequestDashboard(this);
 
-    public void Connect(){
-        HttpClient client = new HttpClient();
-        client.sendGetRequest();
     }
 }
