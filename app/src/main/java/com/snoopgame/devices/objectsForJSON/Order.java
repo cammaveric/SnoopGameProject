@@ -1,6 +1,5 @@
 package com.snoopgame.devices.objectsForJSON;
 
-import java.sql.Date;
 
 public class Order {
     private int id;
@@ -8,14 +7,16 @@ public class Order {
 
     private Phone phone;
 
-    private Date date_start;/*Нужно тестить какой класс*/
-    private Date date_end;
+    private String date_start;/*Нужно тестить какой класс*/
+    private String date_end;
     private String status;
     public int getId() {
         return id;
     }
+    public Order(){
 
-    public Order(int id, Employee employee, Phone phone, Date date_start, Date date_end, String status) {
+    }
+    public Order(int id, Employee employee, Phone phone, String date_start, String date_end, String status) {
         this.id = id;
         this.employee = employee;
         this.phone = phone;
@@ -44,19 +45,19 @@ public class Order {
         this.phone = phone;
     }
 
-    public Date getDate_start() {
+    public String getDate_start() {
         return date_start;
     }
 
-    public void setDate_start(Date date_start) {
+    public void setDate_start(String date_start) {
         this.date_start = date_start;
     }
 
-    public Date getDate_end() {
+    public String getDate_end() {
         return date_end;
     }
 
-    public void setDate_end(Date date_end) {
+    public void setDate_end(String date_end) {
         this.date_end = date_end;
     }
 

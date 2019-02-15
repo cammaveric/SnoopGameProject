@@ -16,6 +16,8 @@ public class DashboardFragment extends Fragment {
 
     public ListView listView;
     public String [] dash_components;
+    public static final String  URL="http://192.168.0.94:8080/dashboard";
+    //урл данила public static final String  URL="http://192.168.0.94:8080/orders";
 
     @Nullable
     @Override
@@ -27,7 +29,6 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        CreateTestJSON createTestJSON =new CreateTestJSON();
        Connect();
     }
     public void setListView(){
@@ -36,7 +37,7 @@ public class DashboardFragment extends Fragment {
         listView.setAdapter(adapter);
     }
     private void Connect(){
-        HttpClient client = new HttpClient("https://reqres.in/api/users?page=2");
+        HttpClient client = new HttpClient(URL);
        client.doGetRequestDashboard(this);
 
     }

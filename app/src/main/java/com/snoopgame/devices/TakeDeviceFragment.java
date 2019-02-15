@@ -13,6 +13,8 @@ import com.snoopgame.devices.connection.HttpClient;
 
 public class TakeDeviceFragment extends Fragment {
     public TextView txtView;
+    public static final String  URL="http://192.168.0.94:8080/take";
+    //урл данила public static final String  URL="http://192.168.0.94:8080/orders";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -28,7 +30,7 @@ public class TakeDeviceFragment extends Fragment {
     }
 
     public void Connect(){
-        HttpClient client = new HttpClient("https://reqres.in/api/users");
+        HttpClient client = new HttpClient(URL);
         client.doPostRequestTake(this);
     }
 }

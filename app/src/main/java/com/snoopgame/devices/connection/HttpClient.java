@@ -16,7 +16,7 @@ import com.snoopgame.devices.objectsForJSON.Orders;
 import com.snoopgame.devices.objectsForJSON.Phone;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -55,34 +55,15 @@ public class HttpClient {
             @Override
             public void onResponse(Call call, Response response) {
                 if (response.isSuccessful()) {
-                   // try {
-                        //responseString = response.body().string();
-                        responseString="{\n" +
-                                "      \"orders\": [\n" +
-                                "        {\n" +
-                                "          \"date_end\": \"янв. 1, 1970\",\n" +
-                                "          \"date_start\": \"янв. 1, 1970\",\n" +
-                                "          \"employee\": {\n" +
-                                "            \"id\": 1,\n" +
-                                "            \"middleName\": \"asdsd\",\n" +
-                                "            \"name\": \"jora\",\n" +
-                                "            \"surname\": \"asd\"\n" +
-                                "          },\n" +
-                                "          \"id\": 1,\n" +
-                                "          \"phone\": {\n" +
-                                "            \"id\": 1,\n" +
-                                "            \"name\": \"Samsung\"\n" +
-                                "          },\n" +
-                                "          \"status\": \"executed\"\n" +
-                                "        }\n" +
-                                "      ]\n" +
-                                "    }";
+                    try {
+                        responseString = response.body().string();
+
                         Gson gson = new Gson();
                         orders = gson.fromJson(responseString,Orders.class);
-                  // } catch (IOException e) {
-                  //      Log.e("connClose", Arrays.toString(e.getStackTrace()));
-                   // }
-                   // Log.i("response", responseString);
+                  } catch (IOException e) {
+                         e.printStackTrace();
+                    }
+                   Log.i("response", responseString);
                     dashboardFragment.getActivity().runOnUiThread(() -> {
                             dashboardFragment.dash_components=new String[orders.getOrders().size()];
                             for (int i=0;i<orders.getOrders().size();i++) {
@@ -144,18 +125,17 @@ public class HttpClient {
 
 
     public void doPostRequestTake(TakeDeviceFragment putDeviceFragment) {
+        ArrayList<Order> a=new ArrayList<>();
         Employee employee=new Employee(1,"'jora","asd","asdsd");
         Phone phone=new Phone(1,"Samsung");
-        Date date_s=new Date(2019,02,14);/*Этот конструктор устарел и не робит, но и новый тоже не работает*/
-        Order order=new  Order(1, employee,phone,date_s,null,"initiated");
+        String date_s="ну и залупа";
+        String  date_e="ebal v rot";
+        a.add(new Order(1, employee,phone,date_s,date_e,"executed"));
+        Orders orders = new Orders(a);
         Gson gson=new GsonBuilder().setPrettyPrinting().create();
-        String json=gson.toJson(order);
+        String json=gson.toJson(orders);
         Log.i("json",json);
-        String jsonToServer = "{\n" +
-                "    \"name\": \"Melardev\",\n" +
-                "    \"job\": \"Student\"\n" +
-                "}";
-        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonToServer);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
