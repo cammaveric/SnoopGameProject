@@ -7,11 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.snoopgame.devices.connection.HttpClient;
+import com.snoopgame.devices.objectsForJSON.Order;
 
 public class PutDeviceFragment extends Fragment {
+    private ListView listView;
+    public String [] put_components;
+    public int [] id_orders;
+    private HttpClient client;
 
     @Nullable
     @Override
@@ -23,5 +29,21 @@ public class PutDeviceFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Connect();
     }
+    public void setListView(){
+        listView=getView().findViewById(R.id.put_list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(),R.layout.components,put_components);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            client.doPostRequestOrder("update",
+                    new Order(id_orders[position], null, null, null, null, "executed"));
+            });
+    }
+
+    public void Connect(){
+        client = new HttpClient();
+        client.doGetRequestOrders(null,this);
+    }
+
 }

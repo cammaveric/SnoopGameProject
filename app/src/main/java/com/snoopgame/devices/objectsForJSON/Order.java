@@ -4,18 +4,14 @@ package com.snoopgame.devices.objectsForJSON;
 public class Order {
     private int id;
     private Employee employee;
-
     private Phone phone;
-
-    private String date_start;/*Нужно тестить какой класс*/
+    private String date_start;
     private String date_end;
     private String status;
     public int getId() {
         return id;
     }
-    public Order(){
 
-    }
     public Order(int id, Employee employee, Phone phone, String date_start, String date_end, String status) {
         this.id = id;
         this.employee = employee;

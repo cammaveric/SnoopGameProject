@@ -4,6 +4,8 @@ public class Employee {
     private int id;
     private String name;
     private String surname;
+    private String middleName;
+
 
     public Employee(int id, String name, String surname, String middleName) {
         this.id = id;
@@ -11,8 +13,6 @@ public class Employee {
         this.surname = surname;
         this.middleName = middleName;
     }
-
-    private String middleName;
 
     public String getName() {
         return name;

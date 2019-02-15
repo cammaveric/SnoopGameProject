@@ -12,13 +12,13 @@ import android.widget.ListView;
 
 import com.snoopgame.devices.connection.HttpClient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DashboardFragment extends Fragment {
 
-    public ListView listView;
-    public String [] dash_components;
-    public static final String  URL="http://192.168.0.94:8080/dashboard";
-    //урл данила public static final String  URL="http://192.168.0.94:8080/orders";
-
+    private ListView listView;
+    public List<String> dash_components = new ArrayList<>();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -29,16 +29,18 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-       Connect();
+        Connect();
     }
-    public void setListView(){
-    listView=(ListView)getView().findViewById(R.id.dash_list);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getContext(),R.layout.dash_components,dash_components);
+
+    public void setListView() {
+        listView = getView().findViewById(R.id.dash_list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(), R.layout.components, dash_components);
         listView.setAdapter(adapter);
     }
-    private void Connect(){
-        HttpClient client = new HttpClient(URL);
-       client.doGetRequestDashboard(this);
+
+    private void Connect() {
+        HttpClient client = new HttpClient();
+        client.doGetRequestOrders(this, null);
 
     }
 }
