@@ -40,7 +40,7 @@ public class DashboardFragment extends Fragment {
 
     private void Connect() {
         HttpClient client = new HttpClient();
-        client.doGetRequestOrders(this, null);
+        client.doGetRequestPhone(this, null);
 
     }
 }

@@ -26,10 +26,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HttpClient {
-
-    private static final String URL_ORDER = "http://192.168.0.94:8080/order/";
-    private static final String URL_PHONE = "http://192.168.0.94:8080/phone/";
-    private static final String URL_EMPLOYEE = "http://192.168.0.94:8080/employee/";
+    private static final String IP="192.168.0.106";
+    private static final String URL_ORDER = "http://"+IP+"/order/";
+    private static final String URL_PHONE = "http://"+IP+":8080/phone/";
+    private static final String URL_EMPLOYEE = "http://"+IP+":8080/employee/";
     private OkHttpClient client;
     private Request request;
     private String responseString;
@@ -73,7 +73,6 @@ public class HttpClient {
                                             "Дата выдачи: " + o.getDate_start());
                                 }
                             });
-                            doGetRequestPhone(dashboardFragment,null);
                         }
                     } else {
                           if (putDeviceFragment.getActivity() != null) {
@@ -129,19 +128,19 @@ public class HttpClient {
                             }
                             dashboardFragment.setListView();
                         });
+                        doGetRequestOrders(dashboardFragment,null);
                     }
                 } else {
                     if (takeDeviceFragment.getActivity() != null) {
                         takeDeviceFragment.getActivity().runOnUiThread(() -> {
                             takeDeviceFragment.phone_components=new String[phones.getPhones().size()];
-                            takeDeviceFragment.phones_id=new int[phones.getPhones().size()];
                             for (int i = 0; i < phones.getPhones().size(); i++) {
                                 Phone p = phones.getPhones().get(i);
                                 if (p.getAmount() == 0) {
                                     continue;
                                 }
-                                takeDeviceFragment.phones_id[i]=p.getId();
-                                takeDeviceFragment.phone_components[i]="Name: " + p.getName() + "\n" +
+                                takeDeviceFragment.phone_components[i]="ID: "+p.getId()+"\n"+
+                                        "Name: " + p.getName() + "\n" +
                                         "Firmware: " + p.getFirmware() + "\n" +
                                         "Amount: " + p.getAmount();
                             }
@@ -171,11 +170,10 @@ public class HttpClient {
                 if (takeDeviceFragment != null) {
                     takeDeviceFragment.getActivity().runOnUiThread(() -> {
                         takeDeviceFragment.employee_components = new String[employees.getEmployees().size()];
-                        takeDeviceFragment.employees_id = new int[employees.getEmployees().size()];
                         for (int i = 0; i < employees.getEmployees().size(); i++) {
                             Employee e = employees.getEmployees().get(i);
-                            takeDeviceFragment.employees_id[i] = e.getId();
-                            takeDeviceFragment.employee_components[i] = "FIO: " + e.getSurname() +
+                            takeDeviceFragment.employee_components[i] = "ID: "+e.getId()+"\n"+
+                                    "FIO: " + e.getSurname() +
                                     " " + e.getName() + " " + e.getMiddleName();
                         }
                         takeDeviceFragment.setEmployeeListView();

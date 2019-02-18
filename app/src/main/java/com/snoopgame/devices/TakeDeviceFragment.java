@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,6 @@ public class TakeDeviceFragment extends Fragment {
     public ListView listView;
     public String [] employee_components;
     public String [] phone_components;
-    public int[] employees_id;
-    public int[] phones_id;
     private int employee_id;
     private int phone_id;
     private HttpClient client;
@@ -41,7 +40,13 @@ public class TakeDeviceFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(),R.layout.components,employee_components);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
-        employee_id = employees_id[position];
+            String val=(String) listView.getItemAtPosition(position);
+            StringBuilder stringBuilder=new StringBuilder();
+            for (int i=4;i<val.length();i++){
+                if (val.charAt(i)=='\n') break;
+                stringBuilder.append(val.charAt(i));
+            }
+            employee_id=Integer.parseInt(stringBuilder.toString());
         client.doGetRequestPhone(null,this);
         });
     }
@@ -50,7 +55,13 @@ public class TakeDeviceFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(),R.layout.components,phone_components);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            phone_id = phones_id[position];
+            String val=(String) listView.getItemAtPosition(position);
+            StringBuilder stringBuilder=new StringBuilder();
+            for (int i=4;i<val.length();i++){
+                if (val.charAt(i)=='\n') break;
+                stringBuilder.append(val.charAt(i));
+            }
+            phone_id=Integer.parseInt(stringBuilder.toString());
             client.doPostRequestOrder("add",
                     new Order(1,
                     new Employee(employee_id,null,null,null),
