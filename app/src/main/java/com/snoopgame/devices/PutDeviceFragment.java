@@ -12,11 +12,14 @@ import android.widget.ListView;
 
 import com.snoopgame.devices.connection.HttpClient;
 import com.snoopgame.devices.objectsForJSON.Order;
+import com.snoopgame.devices.objectsForJSON.Status;
+
+import java.util.Collections;
 
 public class PutDeviceFragment extends Fragment {
     private ListView listView;
     public String [] put_components;
-    public int [] id_orders;
+    public long id_order;
     private HttpClient client;
 
     @Nullable
@@ -36,9 +39,17 @@ public class PutDeviceFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(),R.layout.components,put_components);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            client.doPostRequestOrder("update",
-                    new Order(id_orders[position], null, null, null, null, "executed"));
-            });
+            String val=(String) listView.getItemAtPosition(position);
+            StringBuilder stringBuilder=new StringBuilder();
+            for (int i=4;i<val.length();i++){
+                if (val.charAt(i)=='\n') break;
+                stringBuilder.append(val.charAt(i));
+            }
+            id_order=Integer.parseInt(stringBuilder.toString());
+                client.doPostRequestOrder("update",
+                        new Order(id_order, null, null, null, null, Collections.singleton(Status.EXECUTED)));
+
+        });
     }
 
     public void Connect(){

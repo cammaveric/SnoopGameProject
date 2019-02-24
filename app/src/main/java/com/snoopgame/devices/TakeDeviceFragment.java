@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +14,16 @@ import com.snoopgame.devices.connection.HttpClient;
 import com.snoopgame.devices.objectsForJSON.Employee;
 import com.snoopgame.devices.objectsForJSON.Order;
 import com.snoopgame.devices.objectsForJSON.Phone;
+import com.snoopgame.devices.objectsForJSON.Status;
+
+import java.util.Collections;
 
 public class TakeDeviceFragment extends Fragment {
     public ListView listView;
     public String [] employee_components;
     public String [] phone_components;
-    private int employee_id;
-    private int phone_id;
+    private long employee_id;
+    private long phone_id;
     private HttpClient client;
     @Nullable
     @Override
@@ -63,10 +65,10 @@ public class TakeDeviceFragment extends Fragment {
             }
             phone_id=Integer.parseInt(stringBuilder.toString());
             client.doPostRequestOrder("add",
-                    new Order(1,
-                    new Employee(employee_id,null,null,null),
-                    new Phone(phone_id,null,null,1),
-                    null,null,"initiated"));/*На БД автоинкремент, вместо ID order будет NULL на сервере*/
+                        new Order(0, null,null,
+                        new Employee(employee_id,null,null,null),
+                        new Phone(phone_id,null,1,1,null),
+                        Collections.singleton(Status.INITIATED)));
         });
     }
 

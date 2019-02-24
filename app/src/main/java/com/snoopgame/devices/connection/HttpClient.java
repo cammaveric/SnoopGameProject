@@ -27,9 +27,9 @@ import okhttp3.Response;
 
 public class HttpClient {
     private static final String IP="192.168.0.106";
-    private static final String URL_ORDER = "http://"+IP+"/order/";
-    private static final String URL_PHONE = "http://"+IP+":8080/phone/";
-    private static final String URL_EMPLOYEE = "http://"+IP+":8080/employee/";
+    private static final String URL_ORDER = "http://"+IP+":8080/order/";
+    private static final String URL_PHONE = "http://"+IP+":8080/phone/get";
+    private static final String URL_EMPLOYEE = "http://"+IP+":8080/employee/get";
     private OkHttpClient client;
     private Request request;
     private String responseString;
@@ -67,26 +67,25 @@ public class HttpClient {
                                     Order o=orders.getOrders().get(i);
                                     dashboardFragment.dash_components.add("Телефон: " + o.getPhone().getName() + "\n" +
                                             "Прошивка: " + o.getPhone().getFirmware() + "\n" +
-                                            "ФИО: " + o.getEmployee().getSurname() +
-                                            " " + o.getEmployee().getName() +
-                                            " " + o.getEmployee().getMiddleName() + "\n" +
+                                            "Фамилия: " + o.getEmployee().getSurname() +"\n"+
+                                            "Имя: "+ o.getEmployee().getName() + "\n"+
+                                            "Отчество: " + o.getEmployee().getMiddleName() + "\n" +
                                             "Дата выдачи: " + o.getDate_start());
                                 }
+                                dashboardFragment.setListView();
                             });
                         }
                     } else {
                           if (putDeviceFragment.getActivity() != null) {
                             putDeviceFragment.getActivity().runOnUiThread(() -> {
                                 putDeviceFragment.put_components=new String[orders.getOrders().size()];
-                                putDeviceFragment.id_orders=new int[orders.getOrders().size()];
                                 for (int i = 0; i < orders.getOrders().size(); i++) {
                                     Order o=orders.getOrders().get(i);
-                                    putDeviceFragment.id_orders[i]=o.getId();
-                                    putDeviceFragment.put_components[i]="Телефон: " + o.getPhone().getName() + "\n" +
+                                    putDeviceFragment.put_components[i]="id: "+o.getId()+"\n"+"Телефон: " + o.getPhone().getName() + "\n" +
                                             "Прошивка: " + o.getPhone().getFirmware() + "\n" +
-                                            "ФИО: " + o.getEmployee().getSurname() +
-                                            " " + o.getEmployee().getName() +
-                                            " " + o.getEmployee().getMiddleName() + "\n" +
+                                            "Фамилия: " + o.getEmployee().getSurname() +"\n"+
+                                            "Имя: " + o.getEmployee().getName() +"\n"+
+                                            "Отчество: " + o.getEmployee().getMiddleName() + "\n" +
                                             "Дата выдачи: " + o.getDate_start();
                                 }
                                 putDeviceFragment.setListView();
@@ -111,41 +110,42 @@ public class HttpClient {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                String responseString = response.body().string();
-                Phones phones = gson.fromJson(responseString, Phones.class);
-                Log.i("response",responseString);
-                if (dashboardFragment != null) {
-                    if (dashboardFragment.getActivity() != null) {
-                        dashboardFragment.getActivity().runOnUiThread(() -> {
-                            for (int i = 0; i < phones.getPhones().size(); i++) {
-                                Phone p = phones.getPhones().get(i);
-                                if (p.getAmount() == 0) {
-                                    continue;
+                if (response.isSuccessful()) {
+                    String responseString = response.body().string();
+                    Phones phones = gson.fromJson(responseString, Phones.class);
+                    Log.i("response", responseString);
+                    if (dashboardFragment != null) {
+                        if (dashboardFragment.getActivity() != null) {
+                            dashboardFragment.getActivity().runOnUiThread(() -> {
+                                for (int i = 0; i < phones.getPhones().size(); i++) {
+                                    Phone p = phones.getPhones().get(i);
+                                    if (p.getFree_phone_amount() == 0) {
+                                        continue;
+                                    }
+                                    dashboardFragment.dash_components.add("Name: " + p.getName() + "\n" +
+                                            "Firmware: " + p.getFirmware() + "\n" +
+                                            "Amount: " + p.getFree_phone_amount());
                                 }
-                                dashboardFragment.dash_components.add("Name: " + p.getName() + "\n" +
-                                        "Firmware: " + p.getFirmware() + "\n" +
-                                        "Amount: " + p.getAmount());
-                            }
-                            dashboardFragment.setListView();
-                        });
-                        doGetRequestOrders(dashboardFragment,null);
-                    }
-                } else {
-                    if (takeDeviceFragment.getActivity() != null) {
-                        takeDeviceFragment.getActivity().runOnUiThread(() -> {
-                            takeDeviceFragment.phone_components=new String[phones.getPhones().size()];
-                            for (int i = 0; i < phones.getPhones().size(); i++) {
-                                Phone p = phones.getPhones().get(i);
-                                if (p.getAmount() == 0) {
-                                    continue;
+                            });
+                            doGetRequestOrders(dashboardFragment,null);
+                        }
+                    } else {
+                        if (takeDeviceFragment.getActivity() != null) {
+                            takeDeviceFragment.getActivity().runOnUiThread(() -> {
+                                takeDeviceFragment.phone_components = new String[phones.getPhones().size()];
+                                for (int i = 0; i < phones.getPhones().size(); i++) {
+                                    Phone p = phones.getPhones().get(i);
+                                    if (p.getFree_phone_amount() == 0) {
+                                        continue;
+                                    }
+                                    takeDeviceFragment.phone_components[i] = "ID: " + p.getId() + "\n" +
+                                            "Name: " + p.getName() + "\n" +
+                                            "Firmware: " + p.getFirmware() + "\n" +
+                                            "Amount: " + p.getFree_phone_amount();
                                 }
-                                takeDeviceFragment.phone_components[i]="ID: "+p.getId()+"\n"+
-                                        "Name: " + p.getName() + "\n" +
-                                        "Firmware: " + p.getFirmware() + "\n" +
-                                        "Amount: " + p.getAmount();
-                            }
-                            takeDeviceFragment.setPhoneListView();
-                        });
+                                takeDeviceFragment.setPhoneListView();
+                            });
+                        }
                     }
                 }
             }
@@ -173,8 +173,9 @@ public class HttpClient {
                         for (int i = 0; i < employees.getEmployees().size(); i++) {
                             Employee e = employees.getEmployees().get(i);
                             takeDeviceFragment.employee_components[i] = "ID: "+e.getId()+"\n"+
-                                    "FIO: " + e.getSurname() +
-                                    " " + e.getName() + " " + e.getMiddleName();
+                                    "Surname: " + e.getSurname() +"\n"+
+                                    "Name: " + e.getName() + "\n"+
+                                    "Middle name: " + e.getMiddleName();
                         }
                         takeDeviceFragment.setEmployeeListView();
                     });
@@ -190,15 +191,16 @@ public class HttpClient {
     }
 
     public void doPostRequestOrder(String action,Order order) {
-        String json = gson.toJson(order);
+
+         String json = gson.toJson(order);
         Log.i("json", json);
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
-        Request request = new Request.Builder()
+        Request request1 = new Request.Builder()
                 .url(URL_ORDER + action)
                 .post(body)
                 .build();
 
-        client.newCall(request).enqueue(new Callback() {
+        client.newCall(request1).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("connClose", Arrays.toString(e.getStackTrace()));

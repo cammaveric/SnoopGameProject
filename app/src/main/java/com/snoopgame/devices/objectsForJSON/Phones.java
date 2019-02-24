@@ -1,10 +1,10 @@
 package com.snoopgame.devices.objectsForJSON;
 
+
 import java.util.ArrayList;
 
 public class Phones {
     ArrayList<Phone> phones;
-
     public Phones(ArrayList<Phone> phones) {
         this.phones = phones;
     }
@@ -16,6 +16,6 @@ public class Phones {
     public void setPhones(ArrayList<Phone> phones) {
         this.phones = phones;
     }
-
+    public Phones(){}
 }
 

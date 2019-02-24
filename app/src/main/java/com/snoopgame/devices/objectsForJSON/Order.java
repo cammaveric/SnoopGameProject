@@ -1,44 +1,30 @@
 package com.snoopgame.devices.objectsForJSON;
 
+import java.sql.Date;
+import java.util.Set;
+
 
 public class Order {
-    private int id;
+    private long id;
+
+    private String  date_start;/*SQL Date type cant parse*/
+    private String  date_end;
+
     private Employee employee;
+
     private Phone phone;
-    private String date_start;
-    private String date_end;
-    private String status;
-    public int getId() {
+
+    private Set<Status> statuses;
+
+    public Order() {
+    }
+
+    public long getId() {
         return id;
     }
 
-    public Order(int id, Employee employee, Phone phone, String date_start, String date_end, String status) {
+    public void setId(long id) {
         this.id = id;
-        this.employee = employee;
-        this.phone = phone;
-        this.date_start = date_start;
-        this.date_end = date_end;
-        this.status = status;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public Phone getPhone() {
-        return phone;
-    }
-
-    public void setPhone(Phone phone) {
-        this.phone = phone;
     }
 
     public String getDate_start() {
@@ -57,12 +43,38 @@ public class Order {
         this.date_end = date_end;
     }
 
-    public String getStatus() {
-        return status;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Phone getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Phone phone) {
+        this.phone = phone;
+    }
+
+    public Set<Status> getStatuses() {
+        return statuses;
+    }
+
+    public void setStatuses(Set<Status> statuses) {
+        this.statuses = statuses;
+    }
+
+    public Order(long id, String date_start, String date_end, Employee employee, Phone phone, Set<Status> statuses) {
+
+        this.id = id;
+        this.date_start = date_start;
+        this.date_end = date_end;
+        this.employee = employee;
+        this.phone = phone;
+        this.statuses = statuses;
     }
 }
 

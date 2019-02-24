@@ -1,18 +1,22 @@
 package com.snoopgame.devices.objectsForJSON;
 
 public class Employee {
-    private int id;
+    private long id;
     private String name;
     private String surname;
     private String middleName;
 
-
-    public Employee(int id, String name, String surname, String middleName) {
+    public Employee(long id, String name, String surname, String middleName) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.middleName = middleName;
     }
+
+    public Employee() {
+
+    }
+
 
     public String getName() {
         return name;
@@ -38,7 +42,7 @@ public class Employee {
         this.middleName = middleName;
     }
 
-    public int getId() {
+    public long getId() {
 
         return id;
     }
@@ -46,5 +50,4 @@ public class Employee {
     public void setId(int id) {
         this.id = id;
     }
-
 }

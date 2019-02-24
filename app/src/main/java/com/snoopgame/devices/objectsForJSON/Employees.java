@@ -16,4 +16,5 @@ public class Employees {
     public Employees(ArrayList<Employee> employees) {
         this.employees = employees;
     }
+    public Employees(){}
 }
