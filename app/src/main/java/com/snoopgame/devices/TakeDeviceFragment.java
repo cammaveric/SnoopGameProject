@@ -3,6 +3,7 @@ package com.snoopgame.devices;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +70,9 @@ public class TakeDeviceFragment extends Fragment {
                         new Employee(employee_id,null,null,null),
                         new Phone(phone_id,null,1,1,null),
                         Collections.singleton(Status.INITIATED)));
+            BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
+            bottomNav.setSelectedItemId(R.id.nav_dashboard);
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new DashboardFragment()).commit();
         });
     }
 

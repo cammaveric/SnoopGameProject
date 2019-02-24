@@ -3,6 +3,7 @@ package com.snoopgame.devices;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +48,10 @@ public class PutDeviceFragment extends Fragment {
             }
             id_order=Integer.parseInt(stringBuilder.toString());
                 client.doPostRequestOrder("update",
-                        new Order(id_order, null, null, null, null, Collections.singleton(Status.EXECUTED)));
+                        new Order(id_order, null, null, null, null, null));
+            BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
+            bottomNav.setSelectedItemId(R.id.nav_dashboard);
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new DashboardFragment()).commit();
 
         });
     }

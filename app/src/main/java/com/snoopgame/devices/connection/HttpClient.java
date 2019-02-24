@@ -52,14 +52,11 @@ public class HttpClient {
             }
 
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    try {
                         responseString = response.body().string();
                         orders = gson.fromJson(responseString, Orders.class);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                        Log.i("responseOrder",responseString);
                     if (dashboardFragment != null) {
                         if (dashboardFragment.getActivity() != null) {
                             dashboardFragment.getActivity().runOnUiThread(() -> {
@@ -113,7 +110,7 @@ public class HttpClient {
                 if (response.isSuccessful()) {
                     String responseString = response.body().string();
                     Phones phones = gson.fromJson(responseString, Phones.class);
-                    Log.i("response", responseString);
+                    Log.i("responsePhone",responseString);
                     if (dashboardFragment != null) {
                         if (dashboardFragment.getActivity() != null) {
                             dashboardFragment.getActivity().runOnUiThread(() -> {
@@ -166,7 +163,6 @@ public class HttpClient {
             public void onResponse(Call call, Response response) throws IOException {
                 String responseString = response.body().string();
                 Employees employees = gson.fromJson(responseString, Employees.class);
-                Log.i("response", responseString);
                 if (takeDeviceFragment != null) {
                     takeDeviceFragment.getActivity().runOnUiThread(() -> {
                         takeDeviceFragment.employee_components = new String[employees.getEmployees().size()];
@@ -184,23 +180,16 @@ public class HttpClient {
         });
     }
 
-    public void doPostRequestPhone() {
-    }
-
-    public void doPostRequestEmployee() {
-    }
-
     public void doPostRequestOrder(String action,Order order) {
 
          String json = gson.toJson(order);
-        Log.i("json", json);
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
-        Request request1 = new Request.Builder()
+        Request request = new Request.Builder()
                 .url(URL_ORDER + action)
                 .post(body)
                 .build();
 
-        client.newCall(request1).enqueue(new Callback() {
+        client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("connClose", Arrays.toString(e.getStackTrace()));
@@ -208,14 +197,7 @@ public class HttpClient {
 
             @Override
             public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
-                    try {
-                        responseString = response.body().string();
-                    } catch (IOException e) {
-                        Log.e("connClose", Arrays.toString(e.getStackTrace()));
-                    }
-                    Log.i("response", responseString);
-                }
+
             }
         });
     }
