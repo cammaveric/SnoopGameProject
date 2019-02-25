@@ -116,9 +116,6 @@ public class HttpClient {
                             dashboardFragment.getActivity().runOnUiThread(() -> {
                                 for (int i = 0; i < phones.getPhones().size(); i++) {
                                     Phone p = phones.getPhones().get(i);
-                                    if (p.getFree_phone_amount() == 0) {
-                                        continue;
-                                    }
                                     dashboardFragment.dash_components.add("Name: " + p.getName() + "\n" +
                                             "Firmware: " + p.getFirmware() + "\n" +
                                             "Amount: " + p.getFree_phone_amount());
@@ -132,9 +129,7 @@ public class HttpClient {
                                 takeDeviceFragment.phone_components = new String[phones.getPhones().size()];
                                 for (int i = 0; i < phones.getPhones().size(); i++) {
                                     Phone p = phones.getPhones().get(i);
-                                    if (p.getFree_phone_amount() == 0) {
-                                        continue;
-                                    }
+
                                     takeDeviceFragment.phone_components[i] = "ID: " + p.getId() + "\n" +
                                             "Name: " + p.getName() + "\n" +
                                             "Firmware: " + p.getFirmware() + "\n" +

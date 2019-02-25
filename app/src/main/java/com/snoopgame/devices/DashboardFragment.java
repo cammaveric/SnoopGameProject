@@ -40,7 +40,7 @@ public class DashboardFragment extends Fragment {
 
     private void Connect() {
         try {
-            Thread.sleep(50);
+            Thread.sleep(200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
