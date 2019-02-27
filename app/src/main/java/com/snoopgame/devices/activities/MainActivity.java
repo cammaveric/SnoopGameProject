@@ -1,14 +1,14 @@
-package com.snoopgame.devices;
+package com.snoopgame.devices.activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
-import android.widget.TextView;
 
-import com.snoopgame.devices.connection.HttpClient;
+import com.snoopgame.devices.R;
+import com.snoopgame.devices.fragments.DashboardFragment;
+import com.snoopgame.devices.fragments.PutDeviceFragment;
+import com.snoopgame.devices.fragments.TakeDeviceFragment;
 
 public class MainActivity extends AppCompatActivity {
 

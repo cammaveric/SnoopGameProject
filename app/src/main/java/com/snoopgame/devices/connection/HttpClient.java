@@ -4,9 +4,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.snoopgame.devices.DashboardFragment;
-import com.snoopgame.devices.PutDeviceFragment;
-import com.snoopgame.devices.TakeDeviceFragment;
+import com.snoopgame.devices.fragments.DashboardFragment;
+import com.snoopgame.devices.fragments.PutDeviceFragment;
+import com.snoopgame.devices.fragments.TakeDeviceFragment;
 import com.snoopgame.devices.objectsForJSON.Employee;
 import com.snoopgame.devices.objectsForJSON.Employees;
 import com.snoopgame.devices.objectsForJSON.Order;
@@ -28,7 +28,7 @@ import okhttp3.Response;
 public class HttpClient {
     private static final String IP="192.168.0.106";
     private static final String URL_ORDER = "http://"+IP+":8080/order/";
-    private static final String URL_PHONE = "http://"+IP+":8080/phone/get";
+    private static final String URL_PHONE = "http://"+IP+":8080/phone/";
     private static final String URL_EMPLOYEE = "http://"+IP+":8080/employee/get";
     private OkHttpClient client;
     private Request request;
@@ -40,9 +40,9 @@ public class HttpClient {
         client = new OkHttpClient();
     }
 
-    public void doGetRequestOrders(DashboardFragment dashboardFragment, PutDeviceFragment putDeviceFragment) {
+    public void doGetRequestOrders(DashboardFragment dashboardFragment, PutDeviceFragment putDeviceFragment,String action) {
         request = new Request.Builder()
-                .url(URL_ORDER)
+                .url(URL_ORDER+action)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -60,30 +60,20 @@ public class HttpClient {
                     if (dashboardFragment != null) {
                         if (dashboardFragment.getActivity() != null) {
                             dashboardFragment.getActivity().runOnUiThread(() -> {
-                                for (int i = 0; i < orders.getOrders().size(); i++) {
-                                    Order o=orders.getOrders().get(i);
-                                    if (o.getPhone().getFirmware_name().equals("Android")){
-                                        dashboardFragment.androidList.add("Телефон: " + o.getPhone().getName() + "\n" +
-                                                "Прошивка: " + o.getPhone().getFirmware_name() + "\n" +
-                                                "Фамилия: " + o.getEmployee().getSurname() +"\n"+
-                                                "Имя: "+ o.getEmployee().getName() + "\n"+
-                                                "Отчество: " + o.getEmployee().getMiddleName() + "\n" +
-                                                "Дата выдачи: " + o.getDate_start());
-                                    } else if (o.getPhone().getFirmware_name().equals("iOS")){
-                                        dashboardFragment.iOSList.add("Телефон: " + o.getPhone().getName() + "\n" +
-                                                "Прошивка: " + o.getPhone().getFirmware_name() + "\n" +
-                                                "Фамилия: " + o.getEmployee().getSurname() +"\n"+
-                                                "Имя: "+ o.getEmployee().getName() + "\n"+
-                                                "Отчество: " + o.getEmployee().getMiddleName() + "\n" +
-                                                "Дата выдачи: " + o.getDate_start());
-                                    } else {
-                                        dashboardFragment.amazonList.add("Телефон: " + o.getPhone().getName() + "\n" +
-                                                "Прошивка: " + o.getPhone().getFirmware_name() + "\n" +
-                                                "Фамилия: " + o.getEmployee().getSurname() +"\n"+
-                                                "Имя: "+ o.getEmployee().getName() + "\n"+
-                                                "Отчество: " + o.getEmployee().getMiddleName() + "\n" +
-                                                "Дата выдачи: " + o.getDate_start());
-                                    }
+                                for (int i = 0; i < orders.getAndroidOrders().size(); i++) {
+                                    Order o=orders.getAndroidOrders().get(i);
+                                        dashboardFragment.androidList.add(buildStringOrder(o.getPhone().getName(),o.getPhone().getFirmware_name(),
+                                                o.getEmployee().getSurname(),o.getEmployee().getName(),o.getEmployee().getMiddleName(),o.getDate_start()));
+                                }
+                                for (int i = 0; i < orders.getiOSOrders().size(); i++) {
+                                    Order o=orders.getiOSOrders().get(i);
+                                    dashboardFragment.iOSList.add(buildStringOrder(o.getPhone().getName(),o.getPhone().getFirmware_name(),
+                                            o.getEmployee().getSurname(),o.getEmployee().getName(),o.getEmployee().getMiddleName(),o.getDate_start()));
+                                }
+                                for (int i = 0; i < orders.getAmazonOrders().size(); i++) {
+                                    Order o=orders.getAmazonOrders().get(i);
+                                    dashboardFragment.amazonList.add(buildStringOrder(o.getPhone().getName(),o.getPhone().getFirmware_name(),
+                                            o.getEmployee().getSurname(),o.getEmployee().getName(),o.getEmployee().getMiddleName(),o.getDate_start()));
                                 }
                                 dashboardFragment.setExpandableListView();
                             });
@@ -91,15 +81,12 @@ public class HttpClient {
                     } else {
                           if (putDeviceFragment.getActivity() != null) {
                             putDeviceFragment.getActivity().runOnUiThread(() -> {
-                                putDeviceFragment.put_components=new String[orders.getOrders().size()];
-                                for (int i = 0; i < orders.getOrders().size(); i++) {
-                                    Order o=orders.getOrders().get(i);
-                                    putDeviceFragment.put_components[i]="id: "+o.getId()+"\n"+"Телефон: " + o.getPhone().getName() + "\n" +
-                                            "Прошивка: " + o.getPhone().getFirmware_name() + "\n" +
-                                            "Фамилия: " + o.getEmployee().getSurname() +"\n"+
-                                            "Имя: " + o.getEmployee().getName() +"\n"+
-                                            "Отчество: " + o.getEmployee().getMiddleName() + "\n" +
-                                            "Дата выдачи: " + o.getDate_start();
+                                putDeviceFragment.put_components=new String[orders.getAndroidOrders().size()];
+                                for (int i = 0; i < orders.getAndroidOrders().size(); i++) {
+                                    Order o=orders.getAndroidOrders().get(i);
+                                    putDeviceFragment.put_components[i]="id: "+o.getId()+"\n"+buildStringOrder(o.getPhone().getName(),
+                                            o.getPhone().getFirmware_name(),o.getEmployee().getSurname(),o.getEmployee().getName(),
+                                            o.getEmployee().getMiddleName(),o.getDate_start());
                                 }
                                 putDeviceFragment.setListView();
                             });
@@ -111,9 +98,9 @@ public class HttpClient {
         });
     }
 
-    public void doGetRequestPhone(DashboardFragment dashboardFragment,TakeDeviceFragment takeDeviceFragment) {
+    public void doGetRequestPhone(DashboardFragment dashboardFragment,TakeDeviceFragment takeDeviceFragment,String action) {
         request = new Request.Builder()
-                .url(URL_PHONE)
+                .url(URL_PHONE+action)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -130,37 +117,32 @@ public class HttpClient {
                     if (dashboardFragment != null) {
                         if (dashboardFragment.getActivity() != null) {
                             dashboardFragment.getActivity().runOnUiThread(() -> {
-                                for (int i = 0; i < phones.getPhones().size(); i++) {
-                                    Phone p = phones.getPhones().get(i);
-                                    if (p.getFirmware_name().equals("Android")){
-                                        dashboardFragment.androidList.add("Name: " + p.getName() + "\n" +
-                                                "Firmware: " + p.getFirmware_name() + "\n" +
-                                                "Amount: " + p.getFree_phone_amount());
-                                    } else if (p.getFirmware_name().equals("iOS")){
-                                        dashboardFragment.iOSList.add("Name: " + p.getName() + "\n" +
-                                                "Firmware: " + p.getFirmware_name() + "\n" +
-                                                "Amount: " + p.getFree_phone_amount());
-                                    } else {
-                                        dashboardFragment.amazonList.add("Name: " + p.getName() + "\n" +
-                                                "Firmware: " + p.getFirmware_name() + "\n" +
-                                                "Amount: " + p.getFree_phone_amount());
-                                    }
-
+                                for (int i = 0; i < phones.getAndroidPhones().size(); i++) {
+                                    Phone p = phones.getAndroidPhones().get(i);
+                                        dashboardFragment.androidList.add(buildStringPhone(p.getName(),p.getFirmware_name(),
+                                                p.getFree_phone_amount()));
+                                }
+                                for (int i = 0; i < phones.getiOSPhones().size(); i++) {
+                                    Phone p = phones.getiOSPhones().get(i);
+                                    dashboardFragment.iOSList.add(buildStringPhone(p.getName(),p.getFirmware_name(),
+                                            p.getFree_phone_amount()));
+                                }
+                                for (int i = 0; i < phones.getAmazonPhones().size(); i++) {
+                                    Phone p = phones.getAmazonPhones().get(i);
+                                    dashboardFragment.amazonList.add(buildStringPhone(p.getName(),p.getFirmware_name(),
+                                            p.getFree_phone_amount()));
                                 }
                             });
-                            doGetRequestOrders(dashboardFragment,null);
+                            doGetRequestOrders(dashboardFragment,null,"getByFirmware");
                         }
                     } else {
                         if (takeDeviceFragment.getActivity() != null) {
                             takeDeviceFragment.getActivity().runOnUiThread(() -> {
-                                takeDeviceFragment.phone_components = new String[phones.getPhones().size()];
-                                for (int i = 0; i < phones.getPhones().size(); i++) {
-                                    Phone p = phones.getPhones().get(i);
-
+                                takeDeviceFragment.phone_components = new String[phones.getAndroidPhones().size()];
+                                for (int i = 0; i < phones.getAndroidPhones().size(); i++) {
+                                    Phone p = phones.getAndroidPhones().get(i);
                                     takeDeviceFragment.phone_components[i] = "ID: " + p.getId() + "\n" +
-                                            "Name: " + p.getName() + "\n" +
-                                            "Firmware: " + p.getFirmware_name() + "\n" +
-                                            "Amount: " + p.getFree_phone_amount();
+                                            buildStringPhone(p.getName(),p.getFirmware_name(),p.getFree_phone_amount());
                                 }
                                 takeDeviceFragment.setPhoneListView();
                             });
@@ -223,4 +205,18 @@ public class HttpClient {
             }
         });
     }
+
+   private String buildStringPhone(String name, String firmware_name, int free_phone_amount){
+      return "Name: " + name + "\n" +
+               "Firmware: " + firmware_name + "\n" +
+               "Amount: " + free_phone_amount;
+   }
+   private String buildStringOrder(String phone_name, String firmware_name, String surname, String name, String middleName, String date ){
+        return "Телефон: " + phone_name + "\n" +
+                "Прошивка: " + firmware_name + "\n" +
+                "Фамилия: " + surname +"\n"+
+                "Имя: "+ name + "\n"+
+                "Отчество: " + middleName + "\n" +
+                "Дата выдачи: " + date;
+   }
 }

@@ -1,4 +1,4 @@
-package com.snoopgame.devices;
+package com.snoopgame.devices.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.snoopgame.devices.R;
 import com.snoopgame.devices.connection.HttpClient;
 import com.snoopgame.devices.objectsForJSON.Employee;
 import com.snoopgame.devices.objectsForJSON.Order;
@@ -50,7 +51,7 @@ public class TakeDeviceFragment extends Fragment {
                 stringBuilder.append(val.charAt(i));
             }
             employee_id=Integer.parseInt(stringBuilder.toString());
-        client.doGetRequestPhone(null,this);
+        client.doGetRequestPhone(null,this,"getAll");
         });
     }
     public void setPhoneListView(){

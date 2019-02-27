@@ -1,4 +1,4 @@
-package com.snoopgame.devices;
+package com.snoopgame.devices.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,11 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.snoopgame.devices.R;
 import com.snoopgame.devices.connection.HttpClient;
 import com.snoopgame.devices.objectsForJSON.Order;
-import com.snoopgame.devices.objectsForJSON.Status;
-
-import java.util.Collections;
 
 public class PutDeviceFragment extends Fragment {
     private ListView listView;
@@ -58,7 +56,7 @@ public class PutDeviceFragment extends Fragment {
 
     public void Connect(){
         client = new HttpClient();
-        client.doGetRequestOrders(null,this);
+        client.doGetRequestOrders(null,this,"getAll");
     }
 
 }

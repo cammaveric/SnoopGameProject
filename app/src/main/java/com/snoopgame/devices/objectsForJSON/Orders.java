@@ -1,24 +1,42 @@
 package com.snoopgame.devices.objectsForJSON;
 
 
-
 import java.util.ArrayList;
 
 public class Orders {
-    private ArrayList<Order>orders;
+    private ArrayList<Order> androidOrders;
+    private ArrayList<Order> iOSOrders;
+    private ArrayList<Order> amazonOrders;
 
-    public ArrayList<Order> getOrders() {
-        return orders;
+    public Orders(ArrayList<Order> androidOrders, ArrayList<Order> iOSOrders, ArrayList<Order> amazonOrders) {
+
+        this.androidOrders = androidOrders;
+        this.iOSOrders = iOSOrders;
+        this.amazonOrders = amazonOrders;
     }
 
-    public void setOrders(ArrayList<Order> orders) {
-        this.orders = orders;
+    public ArrayList<Order> getAndroidOrders() {
+        return androidOrders;
     }
 
-    public Orders(){}
-    public Orders(ArrayList<Order> orders) {
+    public void setAndroidOrders(ArrayList<Order> androidOrders) {
+        this.androidOrders = androidOrders;
+    }
 
-        this.orders = orders;
+    public ArrayList<Order> getiOSOrders() {
+        return iOSOrders;
+    }
+
+    public void setiOSOrders(ArrayList<Order> iOSOrders) {
+        this.iOSOrders = iOSOrders;
+    }
+
+    public ArrayList<Order> getAmazonOrders() {
+        return amazonOrders;
+    }
+
+    public void setAmazonOrders(ArrayList<Order> amazonOrders) {
+        this.amazonOrders = amazonOrders;
     }
 
 }

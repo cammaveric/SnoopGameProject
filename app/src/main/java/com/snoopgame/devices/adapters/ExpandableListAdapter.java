@@ -1,4 +1,4 @@
-package com.snoopgame.devices;
+package com.snoopgame.devices.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -8,15 +8,17 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.snoopgame.devices.R;
+
 import java.util.HashMap;
 import java.util.List;
 
-public class ExpandableListAdapder extends BaseExpandableListAdapter {
+public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> listDataHeader;
     private HashMap<String,List<String>> listHashMap;
 
-    public ExpandableListAdapder(Context context, List<String> listDataHeader, HashMap<String, List<String>> listHashMap) {
+    public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listHashMap) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listHashMap = listHashMap;
