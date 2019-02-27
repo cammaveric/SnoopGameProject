@@ -62,14 +62,30 @@ public class HttpClient {
                             dashboardFragment.getActivity().runOnUiThread(() -> {
                                 for (int i = 0; i < orders.getOrders().size(); i++) {
                                     Order o=orders.getOrders().get(i);
-                                    dashboardFragment.dash_components.add("Телефон: " + o.getPhone().getName() + "\n" +
-                                            "Прошивка: " + o.getPhone().getFirmware_name() + "\n" +
-                                            "Фамилия: " + o.getEmployee().getSurname() +"\n"+
-                                            "Имя: "+ o.getEmployee().getName() + "\n"+
-                                            "Отчество: " + o.getEmployee().getMiddleName() + "\n" +
-                                            "Дата выдачи: " + o.getDate_start());
+                                    if (o.getPhone().getFirmware_name().equals("Android")){
+                                        dashboardFragment.androidList.add("Телефон: " + o.getPhone().getName() + "\n" +
+                                                "Прошивка: " + o.getPhone().getFirmware_name() + "\n" +
+                                                "Фамилия: " + o.getEmployee().getSurname() +"\n"+
+                                                "Имя: "+ o.getEmployee().getName() + "\n"+
+                                                "Отчество: " + o.getEmployee().getMiddleName() + "\n" +
+                                                "Дата выдачи: " + o.getDate_start());
+                                    } else if (o.getPhone().getFirmware_name().equals("iOS")){
+                                        dashboardFragment.iOSList.add("Телефон: " + o.getPhone().getName() + "\n" +
+                                                "Прошивка: " + o.getPhone().getFirmware_name() + "\n" +
+                                                "Фамилия: " + o.getEmployee().getSurname() +"\n"+
+                                                "Имя: "+ o.getEmployee().getName() + "\n"+
+                                                "Отчество: " + o.getEmployee().getMiddleName() + "\n" +
+                                                "Дата выдачи: " + o.getDate_start());
+                                    } else {
+                                        dashboardFragment.amazonList.add("Телефон: " + o.getPhone().getName() + "\n" +
+                                                "Прошивка: " + o.getPhone().getFirmware_name() + "\n" +
+                                                "Фамилия: " + o.getEmployee().getSurname() +"\n"+
+                                                "Имя: "+ o.getEmployee().getName() + "\n"+
+                                                "Отчество: " + o.getEmployee().getMiddleName() + "\n" +
+                                                "Дата выдачи: " + o.getDate_start());
+                                    }
                                 }
-                                dashboardFragment.setListView();
+                                dashboardFragment.setExpandableListView();
                             });
                         }
                     } else {
@@ -116,9 +132,20 @@ public class HttpClient {
                             dashboardFragment.getActivity().runOnUiThread(() -> {
                                 for (int i = 0; i < phones.getPhones().size(); i++) {
                                     Phone p = phones.getPhones().get(i);
-                                    dashboardFragment.dash_components.add("Name: " + p.getName() + "\n" +
-                                            "Firmware: " + p.getFirmware_name() + "\n" +
-                                            "Amount: " + p.getFree_phone_amount());
+                                    if (p.getFirmware_name().equals("Android")){
+                                        dashboardFragment.androidList.add("Name: " + p.getName() + "\n" +
+                                                "Firmware: " + p.getFirmware_name() + "\n" +
+                                                "Amount: " + p.getFree_phone_amount());
+                                    } else if (p.getFirmware_name().equals("iOS")){
+                                        dashboardFragment.iOSList.add("Name: " + p.getName() + "\n" +
+                                                "Firmware: " + p.getFirmware_name() + "\n" +
+                                                "Amount: " + p.getFree_phone_amount());
+                                    } else {
+                                        dashboardFragment.amazonList.add("Name: " + p.getName() + "\n" +
+                                                "Firmware: " + p.getFirmware_name() + "\n" +
+                                                "Amount: " + p.getFree_phone_amount());
+                                    }
+
                                 }
                             });
                             doGetRequestOrders(dashboardFragment,null);

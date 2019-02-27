@@ -40,7 +40,7 @@ public class TakeDeviceFragment extends Fragment {
     }
     public void setEmployeeListView(){
         listView=getView().findViewById(R.id.take_list);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(),R.layout.components,employee_components);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(),R.layout.component,employee_components);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
             String val=(String) listView.getItemAtPosition(position);
@@ -55,7 +55,7 @@ public class TakeDeviceFragment extends Fragment {
     }
     public void setPhoneListView(){
         listView=getView().findViewById(R.id.take_list);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(),R.layout.components,phone_components);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(),R.layout.component,phone_components);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
             String val=(String) listView.getItemAtPosition(position);

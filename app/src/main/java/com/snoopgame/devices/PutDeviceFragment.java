@@ -37,7 +37,7 @@ public class PutDeviceFragment extends Fragment {
     }
     public void setListView(){
         listView=getView().findViewById(R.id.put_list);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(),R.layout.components,put_components);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(),R.layout.component,put_components);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
             String val=(String) listView.getItemAtPosition(position);
