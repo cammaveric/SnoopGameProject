@@ -20,7 +20,7 @@ import java.util.Collections;
 public class PutDeviceFragment extends Fragment {
     private ListView listView;
     public String [] put_components;
-    public long id_order;
+    public int id_order;
     private HttpClient client;
 
     @Nullable

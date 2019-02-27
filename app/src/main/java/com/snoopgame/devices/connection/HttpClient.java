@@ -63,7 +63,7 @@ public class HttpClient {
                                 for (int i = 0; i < orders.getOrders().size(); i++) {
                                     Order o=orders.getOrders().get(i);
                                     dashboardFragment.dash_components.add("Телефон: " + o.getPhone().getName() + "\n" +
-                                            "Прошивка: " + o.getPhone().getFirmware() + "\n" +
+                                            "Прошивка: " + o.getPhone().getFirmware_name() + "\n" +
                                             "Фамилия: " + o.getEmployee().getSurname() +"\n"+
                                             "Имя: "+ o.getEmployee().getName() + "\n"+
                                             "Отчество: " + o.getEmployee().getMiddleName() + "\n" +
@@ -79,7 +79,7 @@ public class HttpClient {
                                 for (int i = 0; i < orders.getOrders().size(); i++) {
                                     Order o=orders.getOrders().get(i);
                                     putDeviceFragment.put_components[i]="id: "+o.getId()+"\n"+"Телефон: " + o.getPhone().getName() + "\n" +
-                                            "Прошивка: " + o.getPhone().getFirmware() + "\n" +
+                                            "Прошивка: " + o.getPhone().getFirmware_name() + "\n" +
                                             "Фамилия: " + o.getEmployee().getSurname() +"\n"+
                                             "Имя: " + o.getEmployee().getName() +"\n"+
                                             "Отчество: " + o.getEmployee().getMiddleName() + "\n" +
@@ -117,7 +117,7 @@ public class HttpClient {
                                 for (int i = 0; i < phones.getPhones().size(); i++) {
                                     Phone p = phones.getPhones().get(i);
                                     dashboardFragment.dash_components.add("Name: " + p.getName() + "\n" +
-                                            "Firmware: " + p.getFirmware() + "\n" +
+                                            "Firmware: " + p.getFirmware_name() + "\n" +
                                             "Amount: " + p.getFree_phone_amount());
                                 }
                             });
@@ -132,7 +132,7 @@ public class HttpClient {
 
                                     takeDeviceFragment.phone_components[i] = "ID: " + p.getId() + "\n" +
                                             "Name: " + p.getName() + "\n" +
-                                            "Firmware: " + p.getFirmware() + "\n" +
+                                            "Firmware: " + p.getFirmware_name() + "\n" +
                                             "Amount: " + p.getFree_phone_amount();
                                 }
                                 takeDeviceFragment.setPhoneListView();

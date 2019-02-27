@@ -23,8 +23,8 @@ public class TakeDeviceFragment extends Fragment {
     public ListView listView;
     public String [] employee_components;
     public String [] phone_components;
-    private long employee_id;
-    private long phone_id;
+    private int employee_id;
+    private int phone_id;
     private HttpClient client;
     @Nullable
     @Override
@@ -68,7 +68,7 @@ public class TakeDeviceFragment extends Fragment {
             client.doPostRequestOrder("add",
                         new Order(0, null,null,
                         new Employee(employee_id,null,null,null),
-                        new Phone(phone_id,null,1,1,null),
+                        new Phone(phone_id,null,1,1,null,null),
                         Collections.singleton(Status.INITIATED)));
             BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
             bottomNav.setSelectedItemId(R.id.nav_dashboard);

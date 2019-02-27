@@ -2,26 +2,14 @@ package com.snoopgame.devices.objectsForJSON;
 
 public class Phone {
 
-    private long id;
+    private int id;
     private String name;
     private int amount;
     private int free_phone_amount;
+    private String firmware_name;
+    private String firmware_version;
 
-    private String firmware;
-
-    public Phone(long id, String name, int amount, int free_phone_amount, String firmware) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        this.free_phone_amount = free_phone_amount;
-        this.firmware = firmware;
-    }
-
-    public Phone() {
-    }
-
-
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -53,11 +41,29 @@ public class Phone {
         this.free_phone_amount = free_phone_amount;
     }
 
-    public String getFirmware() {
-        return firmware;
+    public String getFirmware_name() {
+        return firmware_name;
     }
 
-    public void setFirmware(String firmware) {
-        this.firmware = firmware;
+    public void setFirmware_name(String firmware_name) {
+        this.firmware_name = firmware_name;
+    }
+
+    public String getFirmware_version() {
+        return firmware_version;
+    }
+
+    public void setFirmware_version(String firmware_version) {
+        this.firmware_version = firmware_version;
+    }
+
+    public Phone(int id, String name, int amount, int free_phone_amount, String firmware_name, String firmware_version) {
+
+        this.id = id;
+        this.name = name;
+        this.amount = amount;
+        this.free_phone_amount = free_phone_amount;
+        this.firmware_name = firmware_name;
+        this.firmware_version = firmware_version;
     }
 }

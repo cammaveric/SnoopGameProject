@@ -5,7 +5,7 @@ import java.util.Set;
 
 
 public class Order {
-    private long id;
+    private int id;
 
     private String  date_start;/*SQL Date type cant parse*/
     private String  date_end;
@@ -19,11 +19,11 @@ public class Order {
     public Order() {
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -67,7 +67,7 @@ public class Order {
         this.statuses = statuses;
     }
 
-    public Order(long id, String date_start, String date_end, Employee employee, Phone phone, Set<Status> statuses) {
+    public Order(int id, String date_start, String date_end, Employee employee, Phone phone, Set<Status> statuses) {
 
         this.id = id;
         this.date_start = date_start;
