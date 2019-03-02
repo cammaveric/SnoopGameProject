@@ -19,24 +19,27 @@ public class Orders {
         return androidOrders;
     }
 
-    public void setAndroidOrders(ArrayList<Order> androidOrders) {
-        this.androidOrders = androidOrders;
-    }
-
     public ArrayList<Order> getiOSOrders() {
         return iOSOrders;
-    }
-
-    public void setiOSOrders(ArrayList<Order> iOSOrders) {
-        this.iOSOrders = iOSOrders;
     }
 
     public ArrayList<Order> getAmazonOrders() {
         return amazonOrders;
     }
 
+    public void setAndroidOrders(ArrayList<Order> androidOrders) {
+        this.androidOrders = androidOrders;
+    }
+
+    public void setiOSOrders(ArrayList<Order> iOSOrders) {
+        this.iOSOrders = iOSOrders;
+    }
+
     public void setAmazonOrders(ArrayList<Order> amazonOrders) {
         this.amazonOrders = amazonOrders;
     }
 
+    public Orders() {
+
+    }
 }

@@ -26,10 +26,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HttpClient {
-    private static final String IP="192.168.0.106";
-    private static final String URL_ORDER = "http://"+IP+":8080/order/";
-    private static final String URL_PHONE = "http://"+IP+":8080/phone/";
-    private static final String URL_EMPLOYEE = "http://"+IP+":8080/employee/get";
+    private static final String IP = "192.168.0.106";
+    private static final String URL_ORDER = "http://" + IP + ":8080/order/";
+    private static final String URL_PHONE = "http://" + IP + ":8080/phone/";
+    private static final String URL_EMPLOYEE = "http://" + IP + ":8080/employee/get";
     private OkHttpClient client;
     private Request request;
     private String responseString;
@@ -40,9 +40,9 @@ public class HttpClient {
         client = new OkHttpClient();
     }
 
-    public void doGetRequestOrders(DashboardFragment dashboardFragment, PutDeviceFragment putDeviceFragment,String action) {
+    public void doGetRequestOrders(DashboardFragment dashboardFragment, PutDeviceFragment putDeviceFragment, String action) {
         request = new Request.Builder()
-                .url(URL_ORDER+action)
+                .url(URL_ORDER + action)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -54,41 +54,43 @@ public class HttpClient {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                        responseString = response.body().string();
-                        orders = gson.fromJson(responseString, Orders.class);
-                        Log.i("responseOrder",responseString);
+                    responseString = response.body().string();
+                    orders = gson.fromJson(responseString, Orders.class);
                     if (dashboardFragment != null) {
                         if (dashboardFragment.getActivity() != null) {
                             dashboardFragment.getActivity().runOnUiThread(() -> {
                                 for (int i = 0; i < orders.getAndroidOrders().size(); i++) {
-                                    Order o=orders.getAndroidOrders().get(i);
-                                        dashboardFragment.androidList.add(buildStringOrder(o.getPhone().getName(),o.getPhone().getFirmware_name(),
-                                                o.getEmployee().getSurname(),o.getEmployee().getName(),o.getEmployee().getMiddleName(),o.getDate_start()));
+                                    Order o = orders.getAndroidOrders().get(i);
+                                    dashboardFragment.androidList.add(buildStringOrder(o.getPhone().getName(), o.getPhone().getFirmware_name(),
+                                            o.getPhone().getFirmware_version(), o.getEmployee().getSurname(), o.getEmployee().getName(),
+                                            o.getEmployee().getMiddleName(), o.getDate_start()));
                                 }
                                 for (int i = 0; i < orders.getiOSOrders().size(); i++) {
-                                    Order o=orders.getiOSOrders().get(i);
-                                    dashboardFragment.iOSList.add(buildStringOrder(o.getPhone().getName(),o.getPhone().getFirmware_name(),
-                                            o.getEmployee().getSurname(),o.getEmployee().getName(),o.getEmployee().getMiddleName(),o.getDate_start()));
+                                    Order o = orders.getiOSOrders().get(i);
+                                    dashboardFragment.iOSList.add(buildStringOrder(o.getPhone().getName(), o.getPhone().getFirmware_name(),
+                                            o.getPhone().getFirmware_version(), o.getEmployee().getSurname(), o.getEmployee().getName(),
+                                            o.getEmployee().getMiddleName(), o.getDate_start()));
                                 }
                                 for (int i = 0; i < orders.getAmazonOrders().size(); i++) {
-                                    Order o=orders.getAmazonOrders().get(i);
-                                    dashboardFragment.amazonList.add(buildStringOrder(o.getPhone().getName(),o.getPhone().getFirmware_name(),
-                                            o.getEmployee().getSurname(),o.getEmployee().getName(),o.getEmployee().getMiddleName(),o.getDate_start()));
+                                    Order o = orders.getAmazonOrders().get(i);
+                                    dashboardFragment.amazonList.add(buildStringOrder(o.getPhone().getName(), o.getPhone().getFirmware_name(),
+                                            o.getPhone().getFirmware_version(), o.getEmployee().getSurname(), o.getEmployee().getName(),
+                                            o.getEmployee().getMiddleName(), o.getDate_start()));
                                 }
                                 dashboardFragment.setExpandableListView();
                             });
                         }
                     } else {
-                          if (putDeviceFragment.getActivity() != null) {
+                        if (putDeviceFragment.getActivity() != null) {
                             putDeviceFragment.getActivity().runOnUiThread(() -> {
-                                putDeviceFragment.put_components=new String[orders.getAndroidOrders().size()];
+                                putDeviceFragment.put_components = new String[orders.getAndroidOrders().size()];
                                 for (int i = 0; i < orders.getAndroidOrders().size(); i++) {
-                                    Order o=orders.getAndroidOrders().get(i);
-                                    putDeviceFragment.put_components[i]="id: "+o.getId()+"\n"+buildStringOrder(o.getPhone().getName(),
-                                            o.getPhone().getFirmware_name(),o.getEmployee().getSurname(),o.getEmployee().getName(),
-                                            o.getEmployee().getMiddleName(),o.getDate_start());
+                                    Order o = orders.getAndroidOrders().get(i);
+                                    putDeviceFragment.put_components[i] = buildStringOrder(o.getPhone().getName(),
+                                            o.getPhone().getFirmware_name(), o.getPhone().getFirmware_version(), o.getEmployee().getSurname(),
+                                            o.getEmployee().getName(), o.getEmployee().getMiddleName(), o.getDate_start());
                                 }
-                                putDeviceFragment.setListView();
+                                putDeviceFragment.setListView(putDeviceFragment.put_components, null);
                             });
                         }
 
@@ -98,9 +100,9 @@ public class HttpClient {
         });
     }
 
-    public void doGetRequestPhone(DashboardFragment dashboardFragment,TakeDeviceFragment takeDeviceFragment,String action) {
+    public void doGetRequestPhone(DashboardFragment dashboardFragment, TakeDeviceFragment takeDeviceFragment, String action) {
         request = new Request.Builder()
-                .url(URL_PHONE+action)
+                .url(URL_PHONE + action)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -113,27 +115,26 @@ public class HttpClient {
                 if (response.isSuccessful()) {
                     String responseString = response.body().string();
                     Phones phones = gson.fromJson(responseString, Phones.class);
-                    Log.i("responsePhone",responseString);
                     if (dashboardFragment != null) {
                         if (dashboardFragment.getActivity() != null) {
                             dashboardFragment.getActivity().runOnUiThread(() -> {
                                 for (int i = 0; i < phones.getAndroidPhones().size(); i++) {
                                     Phone p = phones.getAndroidPhones().get(i);
-                                        dashboardFragment.androidList.add(buildStringPhone(p.getName(),p.getFirmware_name(),
-                                                p.getFree_phone_amount()));
+                                    dashboardFragment.androidList.add(buildStringPhone(p.getName(), p.getFirmware_name(), p.getFirmware_version(),
+                                            p.getFree_phone_amount()));
                                 }
                                 for (int i = 0; i < phones.getiOSPhones().size(); i++) {
                                     Phone p = phones.getiOSPhones().get(i);
-                                    dashboardFragment.iOSList.add(buildStringPhone(p.getName(),p.getFirmware_name(),
+                                    dashboardFragment.iOSList.add(buildStringPhone(p.getName(), p.getFirmware_name(), p.getFirmware_version(),
                                             p.getFree_phone_amount()));
                                 }
                                 for (int i = 0; i < phones.getAmazonPhones().size(); i++) {
                                     Phone p = phones.getAmazonPhones().get(i);
-                                    dashboardFragment.amazonList.add(buildStringPhone(p.getName(),p.getFirmware_name(),
+                                    dashboardFragment.amazonList.add(buildStringPhone(p.getName(), p.getFirmware_name(), p.getFirmware_version(),
                                             p.getFree_phone_amount()));
                                 }
                             });
-                            doGetRequestOrders(dashboardFragment,null,"getByFirmware");
+                            doGetRequestOrders(dashboardFragment, null, "getByFirmware");
                         }
                     } else {
                         if (takeDeviceFragment.getActivity() != null) {
@@ -141,10 +142,11 @@ public class HttpClient {
                                 takeDeviceFragment.phone_components = new String[phones.getAndroidPhones().size()];
                                 for (int i = 0; i < phones.getAndroidPhones().size(); i++) {
                                     Phone p = phones.getAndroidPhones().get(i);
-                                    takeDeviceFragment.phone_components[i] = "ID: " + p.getId() + "\n" +
-                                            buildStringPhone(p.getName(),p.getFirmware_name(),p.getFree_phone_amount());
+                                    takeDeviceFragment.phone_components[i] =
+                                            buildStringPhone(p.getName(), p.getFirmware_name(), p.getFirmware_version(), p.getFree_phone_amount());
                                 }
-                                takeDeviceFragment.setPhoneListView();
+                                takeDeviceFragment.setPhoneListView(takeDeviceFragment.phone_components, null);
+                                takeDeviceFragment.getTakeActivity().setMaterialSearchView("Phone");
                             });
                         }
                     }
@@ -172,21 +174,21 @@ public class HttpClient {
                         takeDeviceFragment.employee_components = new String[employees.getEmployees().size()];
                         for (int i = 0; i < employees.getEmployees().size(); i++) {
                             Employee e = employees.getEmployees().get(i);
-                            takeDeviceFragment.employee_components[i] = "ID: "+e.getId()+"\n"+
-                                    "Surname: " + e.getSurname() +"\n"+
-                                    "Name: " + e.getName() + "\n"+
-                                    "Middle name: " + e.getMiddleName();
+                            takeDeviceFragment.employee_components[i] =
+                                    "Surname: " + e.getSurname() + "\n" +
+                                            "Name: " + e.getName() + "\n" +
+                                            "Middle name: " + e.getMiddleName();
                         }
-                        takeDeviceFragment.setEmployeeListView();
+                        takeDeviceFragment.setEmployeeListView(takeDeviceFragment.employee_components, null);
                     });
                 }
             }
         });
     }
 
-    public void doPostRequestOrder(String action,Order order) {
+    public void doPostRequestOrder(String action, Order order) {
 
-         String json = gson.toJson(order);
+        String json = gson.toJson(order);
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
         Request request = new Request.Builder()
                 .url(URL_ORDER + action)
@@ -206,17 +208,20 @@ public class HttpClient {
         });
     }
 
-   private String buildStringPhone(String name, String firmware_name, int free_phone_amount){
-      return "Name: " + name + "\n" +
-               "Firmware: " + firmware_name + "\n" +
-               "Amount: " + free_phone_amount;
-   }
-   private String buildStringOrder(String phone_name, String firmware_name, String surname, String name, String middleName, String date ){
-        return "Телефон: " + phone_name + "\n" +
-                "Прошивка: " + firmware_name + "\n" +
-                "Фамилия: " + surname +"\n"+
-                "Имя: "+ name + "\n"+
-                "Отчество: " + middleName + "\n" +
-                "Дата выдачи: " + date;
-   }
+    private String buildStringPhone(String name, String firmware_name, String version, int free_phone_amount) {
+        return "Name: " + name + "\n" +
+                "Firmware: " + firmware_name + "\n" +
+                "Version: " + version + "\n" +
+                "Amount: " + free_phone_amount;
+    }
+
+    private String buildStringOrder(String phone_name, String firmware_name, String version, String surname, String name, String middleName, String date) {
+        return "Phone: " + phone_name + "\n" +
+                "Firmware: " + firmware_name + "\n" +
+                "Version: " + version + "\n" +
+                "Surname: " + surname + "\n" +
+                "Name: " + name + "\n" +
+                "Middle name: " + middleName + "\n" +
+                "Date of issue: " + date;
+    }
 }

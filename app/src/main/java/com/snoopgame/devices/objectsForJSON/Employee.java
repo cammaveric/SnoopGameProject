@@ -13,10 +13,6 @@ public class Employee {
         this.middleName = middleName;
     }
 
-    public Employee() {
-
-    }
-
 
     public String getName() {
         return name;
@@ -30,17 +26,22 @@ public class Employee {
         return surname;
     }
 
+    public Employee() {
+    }
+
     public void setSurname(String surname) {
+
         this.surname = surname;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     public String getMiddleName() {
         return middleName;
     }
 
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
 
     public int getId() {
 
