@@ -1,9 +1,17 @@
 package com.snoopgame.devices.connection;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.snoopgame.devices.R;
+import com.snoopgame.devices.activities.MainActivity;
+import com.snoopgame.devices.dialog_fragment.ConnectionDialog;
 import com.snoopgame.devices.fragments.DashboardFragment;
 import com.snoopgame.devices.fragments.PutDeviceFragment;
 import com.snoopgame.devices.fragments.TakeDeviceFragment;
@@ -26,10 +34,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HttpClient {
-    private static final String IP = "192.168.0.106";
-    private static final String URL_ORDER = "http://" + IP + ":8080/order/";
-    private static final String URL_PHONE = "http://" + IP + ":8080/phone/";
-    private static final String URL_EMPLOYEE = "http://" + IP + ":8080/employee/get";
+    private static final String host = "http://178.151.252.222:8080";
+    private static final String URL_ORDER = host + "/order/";
+    private static final String URL_PHONE = host + "/phone/";
+    private static final String URL_EMPLOYEE = host + "/employee/get";
     private OkHttpClient client;
     private Request request;
     private String responseString;
@@ -48,7 +56,10 @@ public class HttpClient {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("connClose", Arrays.toString(e.getStackTrace()));
+                if (dashboardFragment != null)
+                    showConnectionDialog(dashboardFragment);
+                else if(putDeviceFragment != null)
+                    showConnectionDialog(putDeviceFragment);
             }
 
             @Override
@@ -107,7 +118,10 @@ public class HttpClient {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("connClose", Arrays.toString(e.getStackTrace()));
+                if (dashboardFragment != null)
+                    showConnectionDialog(dashboardFragment);
+                else if (takeDeviceFragment != null)
+                    showConnectionDialog(takeDeviceFragment);
             }
 
             @Override
@@ -162,7 +176,7 @@ public class HttpClient {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("connClose", Arrays.toString(e.getStackTrace()));
+                showConnectionDialog(takeDeviceFragment);
             }
 
             @Override
@@ -223,5 +237,11 @@ public class HttpClient {
                 "Name: " + name + "\n" +
                 "Middle name: " + middleName + "\n" +
                 "Date of issue: " + date;
+    }
+
+    private void showConnectionDialog(Fragment fragment){
+        FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
+        ConnectionDialog dialog = new ConnectionDialog();
+        dialog.show(fm, "connectionDialog");
     }
 }

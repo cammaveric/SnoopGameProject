@@ -3,10 +3,17 @@ package com.snoopgame.devices.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.snoopgame.devices.R;
+import com.snoopgame.devices.dialog_fragment.ConnectionDialog;
 import com.snoopgame.devices.fragments.DashboardFragment;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 
 public class MainActivity extends AppCompatActivity {
     private DashboardFragment dashboardFragment;
@@ -43,5 +50,11 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, dashboardFragment).commit();
         bottomNav.setSelectedItemId(R.id.nav_dashboard);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+    }
+
+    private void showConnectionDialog(){
+         FragmentManager fm = this.getSupportFragmentManager();
+         ConnectionDialog dialog = new ConnectionDialog();
+         dialog.show(fm, "dialog");
     }
 }

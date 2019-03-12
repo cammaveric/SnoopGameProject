@@ -3,5 +3,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="host">http://178.151.252.222:8080</string>
+    <string name="connection_failed">Can not reach the server</string>
+    <string name="positiveBttn">OK</string>
+    <string name="negativeBttn">Cancel</string>
 
 </resources>

@@ -1,9 +1,13 @@
 package com.snoopgame.devices.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +16,13 @@ import android.widget.ExpandableListView;
 import com.snoopgame.devices.R;
 import com.snoopgame.devices.adapters.ExpandableListAdapter;
 import com.snoopgame.devices.connection.HttpClient;
+import com.snoopgame.devices.dialog_fragment.ConnectionDialog;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,9 +53,10 @@ public class DashboardFragment extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        System.out.println(this.getActivity() + "--------------------------------------->");
+
         HttpClient client = new HttpClient();
         client.doGetRequestPhone(this, null, "getByFirmware");
-
     }
 
     public void setExpandableListView() {
@@ -68,4 +79,9 @@ public class DashboardFragment extends Fragment {
         iOSList.clear();
     }
 
+    public void showConnectionDialog(){
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        ConnectionDialog dialog = new ConnectionDialog();
+        dialog.show(fm, "connectionDialog");
+    }
 }
