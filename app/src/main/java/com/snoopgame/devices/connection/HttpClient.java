@@ -27,9 +27,9 @@ import okhttp3.Response;
 
 public class HttpClient {
     private static final String IP = "192.168.0.106";
-    private static final String URL_ORDER = "http://" + IP + ":8080/order/";
-    private static final String URL_PHONE = "http://" + IP + ":8080/phone/";
-    private static final String URL_EMPLOYEE = "http://" + IP + ":8080/employee/get";
+    private static final String URL_ORDER = "http://" + IP + ":8080/api/order/";
+    private static final String URL_PHONE = "http://" + IP + ":8080/api/phone/";
+    private static final String URL_EMPLOYEE = "http://" + IP + ":8080/api/employee/get";
     private OkHttpClient client;
     private Request request;
     private String responseString;
