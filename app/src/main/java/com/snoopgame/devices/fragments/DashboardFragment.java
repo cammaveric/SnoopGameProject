@@ -49,11 +49,10 @@ public class DashboardFragment extends Fragment {
 
     public void connect() {
         try {
-            Thread.sleep(170);
+            Thread.sleep(130);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(this.getActivity() + "--------------------------------------->");
 
         HttpClient client = new HttpClient();
         client.doGetRequestPhone(this, null, "getByFirmware");

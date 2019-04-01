@@ -34,10 +34,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HttpClient {
-    private static final String host = "http://178.151.252.222:8080";
-    private static final String URL_ORDER = host + "/order/";
-    private static final String URL_PHONE = host + "/phone/";
-    private static final String URL_EMPLOYEE = host + "/employee/get";
+    private static final String host = "http://192.168.0.106:8080";
+    private static final String URL_ORDER = host + "/api/order/";
+    private static final String URL_PHONE = host + "/api/phone/";
+    private static final String URL_EMPLOYEE = host + "/api/employee/get";
     private OkHttpClient client;
     private Request request;
     private String responseString;
@@ -76,8 +76,8 @@ public class HttpClient {
                                             o.getPhone().getFirmware_version(), o.getEmployee().getSurname(), o.getEmployee().getName(),
                                             o.getEmployee().getMiddleName(), o.getDate_start()));
                                 }
-                                for (int i = 0; i < orders.getiOSOrders().size(); i++) {
-                                    Order o = orders.getiOSOrders().get(i);
+                                for (int i = 0; i < orders.getIosOrders().size(); i++) {
+                                    Order o = orders.getIosOrders().get(i);
                                     dashboardFragment.iOSList.add(buildStringOrder(o.getPhone().getName(), o.getPhone().getFirmware_name(),
                                             o.getPhone().getFirmware_version(), o.getEmployee().getSurname(), o.getEmployee().getName(),
                                             o.getEmployee().getMiddleName(), o.getDate_start()));
@@ -128,6 +128,7 @@ public class HttpClient {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseString = response.body().string();
+                    Log.i("res",responseString);
                     Phones phones = gson.fromJson(responseString, Phones.class);
                     if (dashboardFragment != null) {
                         if (dashboardFragment.getActivity() != null) {
@@ -137,8 +138,8 @@ public class HttpClient {
                                     dashboardFragment.androidList.add(buildStringPhone(p.getName(), p.getFirmware_name(), p.getFirmware_version(),
                                             p.getFree_phone_amount()));
                                 }
-                                for (int i = 0; i < phones.getiOSPhones().size(); i++) {
-                                    Phone p = phones.getiOSPhones().get(i);
+                                for (int i = 0; i < phones.getIosPhones().size(); i++) {
+                                    Phone p = phones.getIosPhones().get(i);
                                     dashboardFragment.iOSList.add(buildStringPhone(p.getName(), p.getFirmware_name(), p.getFirmware_version(),
                                             p.getFree_phone_amount()));
                                 }
@@ -176,7 +177,7 @@ public class HttpClient {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                showConnectionDialog(takeDeviceFragment);
+               showConnectionDialog(takeDeviceFragment);
             }
 
             @Override

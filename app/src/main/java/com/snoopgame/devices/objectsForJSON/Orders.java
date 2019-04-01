@@ -5,13 +5,13 @@ import java.util.ArrayList;
 
 public class Orders {
     private ArrayList<Order> androidOrders;
-    private ArrayList<Order> iOSOrders;
+    private ArrayList<Order> iosOrders;
     private ArrayList<Order> amazonOrders;
 
-    public Orders(ArrayList<Order> androidOrders, ArrayList<Order> iOSOrders, ArrayList<Order> amazonOrders) {
+    public Orders(ArrayList<Order> androidOrders, ArrayList<Order> iosOrders, ArrayList<Order> amazonOrders) {
 
         this.androidOrders = androidOrders;
-        this.iOSOrders = iOSOrders;
+        this.iosOrders = iosOrders;
         this.amazonOrders = amazonOrders;
     }
 
@@ -19,8 +19,8 @@ public class Orders {
         return androidOrders;
     }
 
-    public ArrayList<Order> getiOSOrders() {
-        return iOSOrders;
+    public ArrayList<Order> getIosOrders() {
+        return iosOrders;
     }
 
     public ArrayList<Order> getAmazonOrders() {
@@ -31,8 +31,8 @@ public class Orders {
         this.androidOrders = androidOrders;
     }
 
-    public void setiOSOrders(ArrayList<Order> iOSOrders) {
-        this.iOSOrders = iOSOrders;
+    public void setIosOrders(ArrayList<Order> iosOrders) {
+        this.iosOrders = iosOrders;
     }
 
     public void setAmazonOrders(ArrayList<Order> amazonOrders) {

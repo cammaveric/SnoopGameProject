@@ -5,14 +5,14 @@ import java.util.ArrayList;
 
 public class Phones {
     private ArrayList<Phone> androidPhones;
-    private ArrayList<Phone> iOSPhones;
+    private ArrayList<Phone> iosPhones;
     private ArrayList<Phone> amazonPhones;
 
 
-    public Phones(ArrayList<Phone> androidPhones, ArrayList<Phone> iOSPhones, ArrayList<Phone> amazonPhones) {
+    public Phones(ArrayList<Phone> androidPhones, ArrayList<Phone> iosPhones, ArrayList<Phone> amazonPhones) {
 
         this.androidPhones = androidPhones;
-        this.iOSPhones = iOSPhones;
+        this.iosPhones = iosPhones;
         this.amazonPhones = amazonPhones;
     }
 
@@ -20,16 +20,16 @@ public class Phones {
         return androidPhones;
     }
 
-    public ArrayList<Phone> getiOSPhones() {
-        return iOSPhones;
+    public ArrayList<Phone> getIosPhones() {
+        return iosPhones;
     }
 
     public void setAndroidPhones(ArrayList<Phone> androidPhones) {
         this.androidPhones = androidPhones;
     }
 
-    public void setiOSPhones(ArrayList<Phone> iOSPhones) {
-        this.iOSPhones = iOSPhones;
+    public void setiosPhones(ArrayList<Phone> iosPhones) {
+        this.iosPhones = iosPhones;
     }
 
     public void setAmazonPhones(ArrayList<Phone> amazonPhones) {

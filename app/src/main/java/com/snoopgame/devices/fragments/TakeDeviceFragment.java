@@ -120,7 +120,7 @@ public class TakeDeviceFragment extends Fragment {
                     new Order(0, null, null,
                             new Employee(1, employee_name, employee_surname, employee_middleName),
                             new Phone(0, name.toString(), 1, 1, firmware.toString(), version.toString()),
-                            Collections.singleton(Status.INITIATED)));
+                            Status.INITIATED));
             getActivity().startActivity(new Intent(this.getActivity(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         });
     }
